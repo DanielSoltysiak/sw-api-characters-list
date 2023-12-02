@@ -12,13 +12,13 @@ export type CharacterData = {
   created: Date | string;
   edited: Date | string;
   homeworld: string;
-  planetData: PlanetData;
 };
 
 export interface CharacterRow extends CharacterData {
   id: string;
   created: Date;
   edited: Date;
+  planetData: PlanetData;
 }
 
 export type SortingOrder = "asc" | "desc";

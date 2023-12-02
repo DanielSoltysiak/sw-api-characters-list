@@ -30,7 +30,13 @@ const charactersTableColumns: GridColDef[] = [
     editable: true,
     type: "dateTime",
   },
-  { field: "homeworld", headerName: "Homeworld", width: 150, editable: true },
+  {
+    field: "planetData",
+    valueGetter: (params) => params.value.name,
+    headerName: "Planet Name",
+    width: 150,
+    editable: true,
+  },
 ];
 
 export default charactersTableColumns;
