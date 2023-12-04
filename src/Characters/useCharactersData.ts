@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CharacterRow, CharacterData } from "../types";
+import { CharacterRow, CharacterData, PlanetData } from "../types";
 import { fetchCache } from "../utils/fetchCache";
 
 export const useCharactersData = () => {
@@ -11,20 +11,26 @@ export const useCharactersData = () => {
       let nextUrl = "https://swapi.dev/api/people/";
       try {
         do {
-          const { results, next } = await fetchCache(nextUrl);
-          const charactersRow: CharacterRow[] = [];
-          for (const char of results as CharacterData[]) {
-            charactersRow.push({
-              id: char.name,
-              name: char.name,
-              height: char.height,
-              mass: char.mass,
-              created: new Date(char.created),
-              edited: new Date(char.edited),
-              homeworld: char.homeworld,
-              planetData: await fetchCache(char.homeworld),
-            });
-          }
+          const { results, next } = await fetchCache<{
+            results: CharacterData[];
+            next: string;
+          }>(nextUrl);
+          const charactersRow: CharacterRow[] = await Promise.all(
+            results.map((char) =>
+              fetchCache<PlanetData>(char.homeworld).then((planetData) => {
+                return {
+                  id: char.name,
+                  name: char.name,
+                  height: char.height,
+                  mass: char.mass,
+                  created: new Date(char.created),
+                  edited: new Date(char.edited),
+                  homeworld: char.homeworld,
+                  planetData: planetData,
+                };
+              })
+            )
+          );
           setRows((prevRows) => [...prevRows, ...charactersRow]);
           nextUrl = next;
         } while (nextUrl);
