@@ -2,14 +2,14 @@ import { useReducer } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
-import { PlanetData } from "../types";
-import { useCharactersData } from "./useCharactersData";
+import { PlanetData } from "../../types";
+import { useCharactersData } from "../useCharactersData";
 import { getCharactersTableColumns } from "./getCharactersTableColumns";
-import { PlanetDialog } from "../Planet/PlanetDialog";
+import { PlanetDialog } from "../../Planet/PlanetDialog";
 import {
   PlanetDialogActionKind,
   planetDialogReducer,
-} from "../Planet/planetDialogReducer";
+} from "../../Planet/planetDialogReducer";
 import { NoRowsInfo } from "./NoRowsInfo";
 import { CharactersTableFooter } from "./CharactersTableFooter";
 import { CharactersTableToolbar } from "./CharactersTableToolbar";

@@ -1,6 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
-import { PlanetData } from "../types";
+import { PlanetData } from "../../types";
 
 export const getCharactersTableColumns = (
   handleClick: (planet: PlanetData) => void
