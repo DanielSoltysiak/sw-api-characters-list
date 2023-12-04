@@ -12,6 +12,7 @@ import {
 } from "../Planet/planetDialogReducer";
 import { NoRowsInfo } from "./NoRowsInfo";
 import { CharactersTableFooter } from "./CharactersTableFooter";
+import { CharactersTableToolbar } from "./CharactersTableToolbar";
 
 export const CharactersTable = () => {
   const { rows, isLoading } = useCharactersData();
@@ -33,7 +34,7 @@ export const CharactersTable = () => {
   return (
     <Box
       sx={{
-        height: 370,
+        height: 410,
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -61,10 +62,19 @@ export const CharactersTable = () => {
           },
         }}
         pageSizeOptions={[5]}
+        disableColumnFilter
+        disableColumnSelector
+        disableDensitySelector
         disableRowSelectionOnClick
         slots={{
+          toolbar: CharactersTableToolbar,
           noRowsOverlay: NoRowsInfo,
           footer: () => <CharactersTableFooter isLoading={isLoading} />,
+        }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
         }}
       />
     </Box>
