@@ -6,7 +6,7 @@ export const getCharactersTableColumns = (
   handleClick: (planet: PlanetData) => void
 ): GridColDef[] => {
   return [
-    { field: "name", headerName: "Name", width: 150, editable: true },
+    { field: "name", headerName: "Name", flex: 1, editable: true },
     {
       field: "height",
       headerName: "Height",
@@ -14,7 +14,7 @@ export const getCharactersTableColumns = (
         if (params.value === "unknown") return params.value;
         return `${params.value} cm`;
       },
-      width: 150,
+      flex: 1,
       editable: true,
       type: "number",
     },
@@ -25,21 +25,21 @@ export const getCharactersTableColumns = (
         if (params.value === "unknown") return params.value;
         return `${params.value} kg`;
       },
-      width: 150,
+      flex: 1,
       editable: true,
       type: "number",
     },
     {
       field: "created",
       headerName: "Created",
-      width: 150,
+      flex: 1,
       editable: true,
       type: "dateTime",
     },
     {
       field: "edited",
       headerName: "Edited",
-      width: 150,
+      flex: 1,
       editable: true,
       type: "dateTime",
     },
@@ -51,7 +51,7 @@ export const getCharactersTableColumns = (
         </Button>
       ),
       headerName: "Planet Name",
-      width: 150,
+      flex: 1,
       editable: true,
     },
   ];

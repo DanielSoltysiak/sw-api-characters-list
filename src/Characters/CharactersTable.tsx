@@ -31,7 +31,16 @@ export const CharactersTable = () => {
   const columns = getCharactersTableColumns(handleModalOpen);
 
   return (
-    <Box sx={{ height: 370 }}>
+    <Box
+      sx={{
+        height: 370,
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {planetDialogState.data && (
         <PlanetDialog
           isOpen={planetDialogState.isOpen}
@@ -39,7 +48,9 @@ export const CharactersTable = () => {
           planet={planetDialogState.data}
         />
       )}
+
       <DataGrid
+        sx={{ width: "100%" }}
         columns={columns}
         rows={rows}
         initialState={{
