@@ -1,37 +1,51 @@
 import { useState, useEffect } from "react";
-import { CharacterRow, CharacterData, PlanetData } from "../types";
-import { fetchCache } from "../utils/fetchCache";
+import { CharacterRow } from "../types";
+import { fetchPlanet } from "../Planet/fetchPlanet";
+import { fetchCharacters } from "./fetchCharacters";
 
 export const useCharactersData = () => {
   const [rows, setRows] = useState<CharacterRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCharacters = async () => {
-      let nextUrl = "https://swapi.dev/api/people/";
+    let lastIdx = 0;
+
+    const fetchData = async () => {
+      let nextUrl = "https://swapi.dev/api/people/?page=1";
+
       try {
         do {
-          const { results, next } = await fetchCache<{
-            results: CharacterData[];
-            next: string;
-          }>(nextUrl);
-          const charactersRow: CharacterRow[] = await Promise.all(
-            results.map((char) =>
-              fetchCache<PlanetData>(char.homeworld).then((planetData) => {
-                return {
-                  id: char.name,
-                  name: char.name,
-                  height: char.height,
-                  mass: char.mass,
-                  created: new Date(char.created),
-                  edited: new Date(char.edited),
-                  homeworld: char.homeworld,
-                  planetData: planetData,
-                };
-              })
-            )
-          );
-          setRows((prevRows) => [...prevRows, ...charactersRow]);
+          const batchFirstIdx = lastIdx;
+          const { results, next } = await fetchCharacters(nextUrl);
+          lastIdx += results.length;
+
+          const partialData: CharacterRow[] = results.map((char) => {
+            return {
+              id: char.name,
+              name: char.name,
+              height: char.height,
+              mass: char.mass,
+              created: new Date(char.created),
+              edited: new Date(char.edited),
+              homeworld: char.homeworld,
+            };
+          });
+          setRows((prevRows) => [...prevRows, ...partialData]);
+
+          Promise.all(
+            partialData.map(async (char) => {
+              const planetData = await fetchPlanet(char.homeworld);
+              return {
+                ...char,
+                planetData: planetData,
+              };
+            })
+          ).then((characterRows) => {
+            setRows((prevRows) =>
+              updatePlanetData(prevRows, batchFirstIdx, characterRows)
+            );
+          });
+
           nextUrl = next;
         } while (nextUrl);
       } catch (error) {
@@ -39,8 +53,22 @@ export const useCharactersData = () => {
       }
       setIsLoading(false);
     };
-    fetchCharacters();
+    fetchData();
   }, []);
 
   return { rows, isLoading };
+};
+
+const updatePlanetData = (
+  prevRows: CharacterRow[],
+  batchFirstIdx: number,
+  rowsWithPlanets: CharacterRow[]
+) => {
+  const newCharactersRows = prevRows.map((row, idx) => {
+    if (batchFirstIdx <= idx && idx < batchFirstIdx + rowsWithPlanets.length) {
+      return rowsWithPlanets[idx - batchFirstIdx];
+    }
+    return row;
+  });
+  return newCharactersRows;
 };

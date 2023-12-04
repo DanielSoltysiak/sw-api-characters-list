@@ -20,7 +20,7 @@ export interface CharacterRow extends CharacterData {
   id: string;
   created: Date;
   edited: Date;
-  planetData: PlanetData;
+  planetData?: PlanetData;
 }
 
 export type SortingOrder = "asc" | "desc";

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { PlanetData } from "../types";
 
@@ -45,11 +45,16 @@ export const getCharactersTableColumns = (
     },
     {
       field: "planetData",
-      renderCell: (params) => (
-        <Button onClick={() => handleClick(params.value)}>
-          {params.value.name}
-        </Button>
-      ),
+      renderCell: (params) => {
+        return params?.value?.name ? (
+          <Button onClick={() => handleClick(params?.value)}>
+            {params?.value?.name}
+          </Button>
+        ) : (
+          <Typography>Loading...</Typography>
+        );
+      },
+
       headerName: "Planet Name",
       flex: 1,
       editable: true,
