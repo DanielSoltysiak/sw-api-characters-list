@@ -16,11 +16,20 @@ export const PlanetDialog = ({ isOpen, handleClose, planet }: Props) => {
       aria-labelledby="planet-dialog-title"
       aria-describedby="planet-dialog-description"
     >
-      <DialogTitle id="planet-dialog-title">{name}</DialogTitle>
-      <DialogContent id="planet-dialog-description"></DialogContent>
-      <Typography>Diameter: {diameter}</Typography>
-      <Typography>Climate: {climate}</Typography>
-      <Typography>Pupulation: {population}</Typography>
+      <DialogTitle id="planet-dialog-title" variant="h2">
+        {name}
+      </DialogTitle>
+      <DialogContent id="planet-dialog-description">
+        <Typography>
+          <b>Diameter:</b> {diameter}
+        </Typography>
+        <Typography>
+          <b>Climate:</b> {climate}
+        </Typography>
+        <Typography>
+          <b>Pupulation:</b> {population}
+        </Typography>
+      </DialogContent>
     </Dialog>
   );
 };
