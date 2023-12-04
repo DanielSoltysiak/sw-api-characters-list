@@ -1,3 +1,5 @@
+export type FetchStatus = "loading" | "success" | "error";
+
 export type PlanetData = {
   name: string;
   diameter: string;
