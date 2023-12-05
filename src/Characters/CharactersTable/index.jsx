@@ -2,7 +2,6 @@ import { useReducer } from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 
-import { PlanetData } from "../../types";
 import { useCharactersData } from "../useCharactersData";
 import { getCharactersTableColumns } from "./getCharactersTableColumns";
 import { PlanetDialog } from "../../Planet/PlanetDialog";
@@ -21,7 +20,7 @@ export const CharactersTable = () => {
     { isOpen: false }
   );
 
-  const handleModalOpen = (planet: PlanetData) =>
+  const handleModalOpen = (planet) =>
     planetDialogDispatch({
       type: PlanetDialogActionKind.OPEN,
       payload: planet,

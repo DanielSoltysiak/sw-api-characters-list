@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { CharacterRow } from "../types";
 import { fetchPlanet } from "../Planet/fetchPlanet";
 import { fetchCharacters } from "./fetchCharacters";
 
 export const useCharactersData = () => {
-  const [rows, setRows] = useState<CharacterRow[]>([]);
+  const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ export const useCharactersData = () => {
           const { results, next } = await fetchCharacters(nextUrl);
           lastIdx += results.length;
 
-          const partialData: CharacterRow[] = results.map((char) => {
+          const partialData = results.map((char) => {
             return {
               id: char.name,
               name: char.name,
@@ -59,11 +58,7 @@ export const useCharactersData = () => {
   return { rows, isLoading };
 };
 
-const updatePlanetData = (
-  prevRows: CharacterRow[],
-  batchFirstIdx: number,
-  rowsWithPlanets: CharacterRow[]
-) => {
+const updatePlanetData = (prevRows, batchFirstIdx, rowsWithPlanets) => {
   const newCharactersRows = prevRows.map((row, idx) => {
     if (batchFirstIdx <= idx && idx < batchFirstIdx + rowsWithPlanets.length) {
       return rowsWithPlanets[idx - batchFirstIdx];

@@ -1,13 +1,6 @@
 import { Typography, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import { PlanetData } from "../types";
 
-interface Props {
-  isOpen: boolean;
-  handleClose: () => void;
-  planet: PlanetData;
-}
-
-export const PlanetDialog = ({ isOpen, handleClose, planet }: Props) => {
+export const PlanetDialog = ({ isOpen, handleClose, planet }) => {
   const { name, diameter, climate, population } = planet;
   return (
     <Dialog

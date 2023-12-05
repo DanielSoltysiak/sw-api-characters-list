@@ -1,10 +1,6 @@
 import { Button, Typography } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-import { PlanetData } from "../../types";
 
-export const getCharactersTableColumns = (
-  handleClick: (planet: PlanetData) => void
-): GridColDef[] => {
+export const getCharactersTableColumns = (handleClick) => {
   return [
     { field: "name", headerName: "Name", flex: 1, editable: true },
     {
